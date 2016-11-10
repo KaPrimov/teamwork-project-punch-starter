@@ -6,7 +6,7 @@ class FoodPunchStarter extends BasePunchStarter {
         super(id, name, manufacturer, description, genres, targetPrice);
         this._ingredients = ingredients;
         this._recipe = recipe;
-        this.validate(ingredients, recipe);
+        validate(ingredients, recipe);
     }
 
     get ingredients() {
@@ -15,22 +15,19 @@ class FoodPunchStarter extends BasePunchStarter {
     get recipe() {
         return this._recipe;
     }
-
-    validate(ingredients, recipe) {
-        if (ingredients.constructor !== Array) {
-            throw new TypeError('actors should be an array!')
-        } else {
-            for(let ingredient of ingredients) {
-                if(typeof ingredient !== "string") {
-                    throw new TypeError('all actors should be strings');
-                }
+}
+function validate(ingredients, recipe) {
+    if (ingredients.constructor !== Array) {
+        throw new TypeError('actors should be an array!')
+    } else {
+        for(let ingredient of ingredients) {
+            if(typeof ingredient !== "string") {
+                throw new TypeError('all actors should be strings');
             }
         }
-        if(typeof recipe !== "string") {
-            throw new TypeError('director should be string');
-        }
-
+    }
+    if(typeof recipe !== "string") {
+        throw new TypeError('director should be string');
     }
 }
-
 module.exports = FoodPunchStarter;
