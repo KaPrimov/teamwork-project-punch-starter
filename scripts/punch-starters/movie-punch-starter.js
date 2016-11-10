@@ -20,11 +20,17 @@ class MoviePunchStarter extends BasePunchStarter {
         if(typeof director !== "string") {
             throw new TypeError('director should be string');
         }
-        for(let actor of actors) {
-            if(typeof actor !== "string") {
-                throw new TypeError('all actors should be strings');
+
+        if (actors.constructor !== Array) {
+            throw new TypeError('actors should be an array!')
+        } else {
+            for(let actor of actors) {
+                if(typeof actor !== "string") {
+                    throw new TypeError('all actors should be strings');
+                }
             }
         }
+
     }
 }
 
