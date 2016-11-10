@@ -1,6 +1,6 @@
 class BasePunchStarter {
     constructor(id, name, manufacturer, description, genres, targetPrice) {
-        if (target.new === BasePunchStarter) {
+        if (new.target === BasePunchStarter) {
             throw new Error('Cannot instance an abstract class!')
         }
         this.validateParameters(id, name, manufacturer, description, genres, targetPrice);
@@ -73,7 +73,6 @@ class BasePunchStarter {
             throw new TypeError('TargetPrice should be a number!')
         }
     }
-
 }
 
 module.exports = BasePunchStarter;
