@@ -4,7 +4,24 @@ class HomeModel {
 
     render(isLoggedIn, database) {
         if (isLoggedIn) {
-            //TODO: Implement Logged In State Logic
+            $('.wrapper header .header-button-holder').html(
+                '<div class="header-button home-redirect">' +
+                '   <p>Home</p>' +
+                '</div>' +
+                '<div class="header-button list-redirect">' +
+                '   <p>PunchStarter List</p>' +
+                '</div>' +
+                '<div class="header-button create-redirect">' +
+                '   <p>Create</p>' +
+                '</div>' +
+                '<div class="header-button logout-redirect">' +
+                '   <p>Logout</p>' +
+                '</div>'
+            );
+
+            this.renderFirstThreeSorted(database);
+
+
         } else {
             $('.wrapper header .header-button-holder').html(
                 '<div class="header-button home-redirect">' +
@@ -27,12 +44,53 @@ class HomeModel {
         }
     }
 
+    renderFirstThreeSorted(database) {
+        database.sort(function (a, b) {
+            let aPerc = (a.accumulatedMoney / a.targetPrice);
+            let bPerc = (b.accumulatedMoney / b.targetPrice);
+            return bPerc - aPerc;
+        });
+        let three = database.slice(0, 3);
+        let punches = this.generateHTMLPunch(three);
+        $('.wrapper main').html(`
+<div class="home-logged-in-welcome">
+    Welcome, ${sessionStorage['username']}!
+</div>
+<div class="home-logged-in-title">
+    Top 3 PunchStarters
+</div>
+<div class="top-3-starters-wrapper">
+${punches}</div>`
+        )
+    }
+
+    generateHTMLPunch(array){
+        let currLabel='';
+        for (let i = 0; i < array.length; i++) {
+            let currPunch=array[i];
+           currLabel+= `<div class="punch-starter-holder"><label>${currPunch.name}</label><label>${currPunch.manufacturer}</label><label>${currPunch.accumulatedMoney} / ${currPunch.targetPrice}</label></div>\n`;
+
+        }
+
+        return currLabel;
+    }
+
     attachEvents(isLoggedIn) {
         if (isLoggedIn) {
-            //TODO: Home redirect onclick
-            //TODO: List redirect onclick
-            //TODO: Create redirect onclick
-			//TODO: Logout redirect onclick
+
+            $('.home-redirect').on('click',function () {
+                $('.wrapper main').trigger('changePage',['home'])
+            });
+            $('.list-redirect').on('click',function () {
+                $('.wrapper main').trigger('changePage',['list'])
+            });
+            $('.create-redirect').on('click',function () {
+                $('.wrapper main').trigger('changePage',['create'])
+            });
+            $('.logout-redirect').on('click',function () {
+                sessionStorage.removeItem('username');
+                $('.wrapper main').trigger('changePage',['home'])
+            });
         } else {
             $('.home-redirect').on('click', function () {
                 $('.wrapper main').trigger('changePage', ['home']);
@@ -42,7 +100,7 @@ class HomeModel {
                 $('.wrapper main').trigger('changePage', ['login']);
             });
 
-            $('.home-logged-out-wrapper h2 a').on('click', function() {
+            $('.home-logged-out-wrapper h2 a').on('click', function () {
                 $('.wrapper main').trigger('changePage', ['login']);
             });
 

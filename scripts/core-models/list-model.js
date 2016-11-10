@@ -1,5 +1,11 @@
 class ListModel {
-	//TODO: Implement List Model
+	constructor(){
+
+    }
+
+    render(){
+
+    }
 }
 
 module.exports = ListModel;
