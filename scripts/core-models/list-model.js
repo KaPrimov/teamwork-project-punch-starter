@@ -26,6 +26,10 @@ class ListModel {
 </div>`
 $('.wrapper main').html(html);
     }
+
+    attachEvents(punchStarterDatabase){
+
+    }
 }
 
 module.exports = ListModel;

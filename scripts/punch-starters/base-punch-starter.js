@@ -19,7 +19,7 @@ function validateParameters(id, name, manufacturer, description, genres, targetP
             throw new TypeError('All genres should be a string!')
         }
     }
-    if (typeof targetPrice != 'number') {
+    if (isNaN(targetPrice)) {
         throw new TypeError('TargetPrice should be a number!')
     }
 }
