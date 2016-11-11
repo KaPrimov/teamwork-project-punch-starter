@@ -1,5 +1,15 @@
 class PunchStarterModel {
-	//TODO: Implement Punch Starter Model
+	constructor() {
+        this._category = 'Movie';
+    }
+
+    get category() {
+        return this._category
+    }
+
+    set category(category) {
+        this._category = category;
+    }
 }
 
 module.exports = PunchStarterModel;
