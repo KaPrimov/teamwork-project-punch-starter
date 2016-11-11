@@ -11,13 +11,13 @@ class CreateModel {
             }
 
         }
-        let movieHTML = this.renderCreateMovieModel();
+        let HTML = this.renderCreateMovieModel();
 
         let html = '';
         html += `<div class="create-title">Create a PunchStarter</div>`;
         html+= `<div class="punch-starter-category"><select>${options}</select></div>`;
         html +=
-`<div class="create-form-holder">
+            `<div class="create-form-holder">
     <form>
         <div class="main-parameters">
             <label>Name:</label>
@@ -49,7 +49,7 @@ class CreateModel {
             </div>
         </div>
         <div class="individual-parameters">
-            ${movieHTML}
+            ${HTML}
         </div>
     </form>
     <div class="submit-button-holder">
@@ -132,14 +132,107 @@ class CreateModel {
         })
     }
     renderCreateGameModel() {
-        
+        let html = '';
+        html +=
+            `
+            <label>Technologies:</label>
+            <div class="list-holder">
+                <select class="input-technologies"></select>
+            </div>            
+            <div class="input-holder">
+                <input class="new-technology" placeholder="Add technology...">
+            </div>
+            <div class="button-holder">
+                <button class="add-technology-button">Add</button>
+                <button class="remove-technology-button">Remove</button>
+            </div>`;
+
+        return html;
     }
-    attachEventsCreateGameModel(){}
-    renderCreateInnovativeModel() {}
-    renderCreateFoodModel() {}
-    attachEventsCreateFoodModel() {}
-    renderCreateCraftsModel() {}
-    attachEventsCreateCraftsModel() {}
+    attachEventsCreateGameModel(){
+        $('.add-technology-button').on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            let technology = $('.new-technology').val();
+            $('.input-technologies').append($(`<option value="${technology}">${technology}</option>`))
+            $('.new-technology').val('');
+        });
+        $('.remove-technology-button').on('click', function () {
+            event.preventDefault();
+            event.stopPropagation();
+            let technology = $('.input-technologies').find(':selected').remove();
+        })
+    }
+    renderCreateInnovativeModel() {
+        return ''
+    }
+    renderCreateFoodModel() {
+        let html = '';
+        html +=
+            `<label>Recipe:</label>
+            <div class="input-holder">
+            <textarea class="input-recipe" placeholder="Recipe..." rows="2"/>
+            </div>
+            <label>Ingredients:</label>
+            <div class="list-holder">
+                <select class="input-ingredients"></select>
+            </div>            
+            <div class="input-holder">
+                <input class="new-ingredient" placeholder="Add ingredient...">
+            </div>
+            <div class="button-holder">
+                <button class="add-ingredient-button">Add</button>
+                <button class="remove-ingredient-button">Remove</button>
+            </div>`;
+
+        return html;
+    }
+    attachEventsCreateFoodModel() {
+        $('.add-ingredient-button').on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            let ingredient = $('.new-ingredient').val();
+            $('.input-ingredients').append($(`<option value="${ingredient}">${ingredient}</option>`));
+            $('.new-ingredient').val('');
+        });
+        $('.remove-ingredient-button').on('click', function () {
+            event.preventDefault();
+            event.stopPropagation();
+            let ingredient = $('.input-ingredients').find(':selected').remove();
+        })
+    }
+    renderCreateCraftsModel() {
+        let html = '';
+        html +=
+            `
+            <label>Resources:</label>
+            <div class="list-holder">
+                <select class="input-resources"></select>
+            </div>            
+            <div class="input-holder">
+                <input class="new-resource" placeholder="Add resource...">
+            </div>
+            <div class="button-holder">
+                <button class="add-resource-button">Add</button>
+                <button class="remove-resource-button">Remove</button>
+            </div>`;
+
+        return html;
+    }
+    attachEventsCreateCraftsModel() {
+        $('.add-resource-button').on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            let resource = $('.new-resource').val();
+            $('.input-resources').append($(`<option value="${resource}">${resource}</option>`));
+            $('.new-resource').val('');
+        });
+        $('.remove-resource-button').on('click', function () {
+            event.preventDefault();
+            event.stopPropagation();
+            let ingredient = $('.input-resources').find(':selected').remove();
+        })
+    }
 }
 
 module.exports = CreateModel;
