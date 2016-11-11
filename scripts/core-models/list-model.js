@@ -2,7 +2,7 @@ class ListModel {
 	constructor(){
 
     }
-
+    
     render(database){
         database.sort(function (a,b) {
             return a.id - b.id;
@@ -13,6 +13,9 @@ class ListModel {
         for (let i = 0; i < database.length; i++) {
             let current = database[i];
             let per = (current.accumulatedMoney /current.targetPrice)*100;
+        if (current.targetPrice === 0) {
+            per = 100;
+        }
              table +=`<tr><td>${current.id}</td><td>${current.name}</td><td>${current.manufacturer}</td><td>${current.constructor.name.replace('PunchStarter','')}</td><td>${per.toFixed(2)}%</td></tr>\n`;
         }
 
@@ -23,12 +26,18 @@ class ListModel {
         ${header}    
         ${table}
     </table>
-</div>`
+</div>`;
 $('.wrapper main').html(html);
     }
 
     attachEvents(punchStarterDatabase){
-
+        $('.punch-starter-table tr').each(function (index) {
+            if(index !== 0) {
+                $(this).on('click', function () {
+                    $('.wrapper main').trigger('changePage', ['details', punchStarterDatabase[index-1]] );
+                })
+            }
+        })
     }
 }
 

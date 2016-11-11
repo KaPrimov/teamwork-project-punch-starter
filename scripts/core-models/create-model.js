@@ -6,8 +6,7 @@ let CraftsPunchStarter = require('../punch-starters/crafts-punch-starter.js');
 
 let id = 1;
 class CreateModel {
-    constructor() {
-        this.id = id++;
+    constructor(id = 1) {
         this.category = 'Movie'
     }
     get category() {
@@ -275,7 +274,7 @@ class CreateModel {
             event.stopPropagation();
             let genre = $('.new-genre').val();
             if (genre !== '') {
-                $('.input-genres').append($(`<option value="${genre}">${genre}</option>`))
+                $('.input-genres').append($(`<option value="${genre}">${genre}</option>`));
                 $('.new-genre').val('');
             }
         });
@@ -297,7 +296,14 @@ class CreateModel {
             $('.input-genres option').each(function () {
                 genres.push($(this).val());
             });
-            let targetPrice = $('.input-target-price').val() || 0;
+            let targetPrice = $('.input-target-price').val();
+            if(targetPrice === '') {
+                targetPrice = 0
+            }
+            if(isNaN(targetPrice)) {
+                throw new Error;
+            }
+
             let punchStarter = {};
             that.validate(name, manufacturer, description);
             if(that.category === 'Movie') {
@@ -307,16 +313,16 @@ class CreateModel {
                     actors.push($(this).val());
                 });
                 that.validate(director);
-                punchStarter = new MoviePunchStarter(that.id, name, manufacturer, description, genres, targetPrice, director, actors)
+                punchStarter = new MoviePunchStarter(id, name, manufacturer, description, genres, targetPrice, director, actors)
             } else if (that.category === 'Game') {
                 let tech = [];
                 $('.input-technologies option').each(function () {
                     tech.push($(this).val());
                 });
-                punchStarter = new GamePunchStarter(that.id, name, manufacturer, description, genres, targetPrice, tech)
+                punchStarter = new GamePunchStarter(id, name, manufacturer, description, genres, targetPrice, tech)
             } else if (that.category === 'Innovative') {
 
-                punchStarter = new InnovativePunchStarter(that.id, name, manufacturer, description, genres, targetPrice)
+                punchStarter = new InnovativePunchStarter(id, name, manufacturer, description, genres, targetPrice)
             } else if (that.category === 'Food') {
                 let ingredients = [];
                 let recipe = $('.input-recipe').val();
@@ -330,8 +336,9 @@ class CreateModel {
                 $('.input-resources option').each(function () {
                     resources.push($(this).val());
                 });
-                punchStarter = new CraftsPunchStarter(that.id, name, manufacturer, description, genres, targetPrice, resources);
+                punchStarter = new CraftsPunchStarter(id, name, manufacturer, description, genres, targetPrice, resources);
             }
+            id++;
             $('.wrapper main').trigger('createPunchStarter', [punchStarter]);
         })
     }
@@ -342,7 +349,6 @@ class CreateModel {
             }
 
         }
-
     }
 }
 
